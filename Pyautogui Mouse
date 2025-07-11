@@ -1,0 +1,55 @@
+import pyautogui
+import time
+import os
+
+# SAFETY: Move mouse to top-left corner to abort if needed
+pyautogui.FAILSAFE = True
+
+# STEP 1: Open Notepad
+os.system("start notepad")
+time.sleep(2)  # Wait for Notepad to open
+
+# STEP 2: Type multiline text
+text = """Automated Note:
+- Point 1: PyAutoGUI can type text.
+- Point 2: PyAutoGUI can move the mouse.
+- Point 3: PyAutoGUI can select and copy text.
+- Point 4: PyAutoGUI can paste text.
+"""
+
+pyautogui.typewrite(text, interval=0.05)
+time.sleep(1)
+
+# STEP 3: Get current position to start selection
+print("Move your mouse to the START of the text you want to select within 5 seconds...")
+time.sleep(5)
+start_pos = pyautogui.position()
+print(f"Start position: {start_pos}")
+
+print("Move your mouse to the END of the text you want to select within 5 seconds...")
+time.sleep(5)
+end_pos = pyautogui.position()
+print(f"End position: {end_pos}")
+
+# STEP 4: Click and drag to select text
+pyautogui.moveTo(start_pos.x, start_pos.y, duration=0.5)
+pyautogui.mouseDown()
+pyautogui.moveTo(end_pos.x, end_pos.y, duration=0.5)
+pyautogui.mouseUp()
+time.sleep(0.5)
+
+# STEP 5: Right-click to open context menu and click 'Copy'
+pyautogui.rightClick()
+time.sleep(0.5)
+# Navigate to 'Copy' (usually the first option)
+pyautogui.press('down')
+pyautogui.press('enter')
+time.sleep(0.5)
+
+# STEP 6: Move cursor to end, create a new line, and paste
+pyautogui.press('end')
+pyautogui.press('enter')
+pyautogui.press('enter')
+pyautogui.hotkey('ctrl', 'v')
+
+print("✅ Automation completed. Text was typed, selected, copied, and pasted using PyAutoGUI.")
